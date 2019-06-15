@@ -16,6 +16,8 @@ public class NumToWordConvApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(NumToWordConvApplication.class, args);
+		
+		System.out.println("Please enter the positive integer");
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -29,11 +31,13 @@ public class NumToWordConvApplication {
 			System.out.println(WordConverter.convertNumToWord(inputNumber));
 
 		} catch (IOException e) {
-			logger.error("Error while reading the input: " + e.getMessage());
+			logger.error("Error while reading the input. " + e.getMessage());
 		} catch (NumberFormatException e) {
-			logger.error(input + " is invalid Number: " + e.getMessage());
+			logger.error(input + " is invalid Number");
 		} catch (IllegalArgumentException e) {
-			logger.error(input + "is invalid positive integer: " + e.getMessage());
+			logger.error(input + " is invalid positive integer. ");
+		} catch (Exception e) {
+			logger.error( "Internal Server Exception: "+ e.getMessage());
 		}
 
 	}
