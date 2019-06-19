@@ -1,45 +1,47 @@
 package com.virtusa.sample.numberToWordConverter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import com.virtusa.sample.numberToWordConverter.controller.WordConverterController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+import java.util.Scanner;
 
 @SpringBootApplication
 public class NumToWordConvApplication {
 
-	private static Logger logger = LoggerFactory.getLogger(NumToWordConvApplication.class);
+    private static Logger logger = LoggerFactory.getLogger(NumToWordConvApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(NumToWordConvApplication.class, args);
-		
-		System.out.println("Please enter the positive integer");
+    public static void main(String[] args) {
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ApplicationContext appContext = SpringApplication.run(NumToWordConvApplication.class, args);
 
-		// Reading data using readLine
-		String input = "";
-		int inputNumber;
+        WordConverterController wordConverterController = appContext.getBean(WordConverterController.class);
 
-		try {
-			input = reader.readLine();
-			inputNumber = Integer.parseInt(input);
-			System.out.println(WordConverter.convertNumToWord(inputNumber));
+        int num;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the positive integer less than 999,999,999. Enter negitive value to exit");
 
-		} catch (IOException e) {
-			logger.error("Error while reading the input. " + e.getMessage());
-		} catch (NumberFormatException e) {
-			logger.error(input + " is invalid Number");
-		} catch (IllegalArgumentException e) {
-			logger.error(input + " is invalid positive integer. ");
-		} catch (Exception e) {
-			logger.error( "Internal Server Exception: "+ e.getMessage());
-		}
+        try {
+            while ((num = scanner.nextInt()) > 0) {
 
-	}
+                System.out.println(wordConverterController.convertNumToWord(num));
+                System.out.println("Keep Going! Enter the positive integer less than 999,999,999");
+            }
+
+            System.out.println("Number is negative! System Shutdown!");
+            System.exit(1);
+
+        } catch (NumberFormatException e) {
+            System.out.println(" Invalid input! System Shutdown!");
+        } catch (Exception e) {
+            System.out.println(" Invalid input! System Shutdown!");
+        } finally {
+            System.exit(1);
+        }
+
+    }
 
 }
